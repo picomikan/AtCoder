@@ -18,9 +18,9 @@ main(){
     y = yy / 1000;
     fprintf(stderr, "y = %d\n", y);
 
-    for (i = i; i <= n && i*10 <= y; i++){
+    for (i = 0; i <= n && i*10 <= y; i++){
         for (j = 0; j <= (n - i) && i*10 + j*5 <= y; j++){
-            k = (n - i - j); 
+            k = n - i - j; 
             if (i*10 + j*5 + k == y){
                 printf("%d %d %d\n", i, j, k);
                 return 0;
@@ -31,4 +31,3 @@ main(){
     printf("-1 -1 -1\n");
     return 0;
 }
-
