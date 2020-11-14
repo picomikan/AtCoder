@@ -39,7 +39,7 @@ cmp(char C1, char C2){
     printf("? %c %c\n", C1, C2);
     fflush(stdout);
     scanf("%s", s);
-    fprintf(stderr, "Query: %c %c %c\n", C1, s[0], C2);
+    //fprintf(stderr, "Query: %c %c %c\n", C1, s[0], C2);
     
     // キャッシュに追加
     add_cache(C1, C2, s[0]);
@@ -84,12 +84,6 @@ msort(char *d, int size){
       SWAP(d[0], d[1]);
     }
   }
-  /*
-  else if (size == 5){
-    // 先頭3つをソート
-    msort(d, 3);
-    // d[3]を２分探索で配置
-  }*/
   else{
     int m = (size + 1) / 2;
     msort(&d[0], m);

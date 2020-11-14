@@ -70,7 +70,7 @@ def make_question(seed):
         if i == e:
             s += 'E'
     
-    dsp_msg('B_question: Q #' + str(seed) + ' Exp:' + s)
+    dsp_msg('B_question: Q No.' + str(seed) + ' Exp:' + s)
 
     return 0, {'A':a, 'B':b, 'C':c, 'D':d, 'E':e}
 
@@ -92,7 +92,7 @@ def start_qa(seed, qdata, Q):
 
     seed_str = ''
     if not FULL_MSG:
-        seed_str += 'Q #' + str(seed) + ' '
+        seed_str += 'Q No.' + str(seed) + ' '
 
     # 問題出力
     print(N, Q, flush=True)
@@ -112,32 +112,38 @@ def start_qa(seed, qdata, Q):
 
         if cmd == '?':
             # Query
-            dsp_msg('B_question: Query #' + str(count + 1), *s)
 
             if len(s) != 2:
+                dsp_msg('B_question: Query ' + str(count + 1) + ':', *s)
                 print('B_question: ' + seed_str + 'Query format error', file=sys.stderr)
                 return -1
             
             for c in s:
                 if c not in qdata.keys():
+                    dsp_msg('B_question: Query ' + str(count + 1) + ':', *s)
                     print('B_question: ' + seed_str + 'Wrong character =', c, file=sys.stderr)
                     return -1
             
             if s[0] == s[1]:
+                dsp_msg('B_question: Query ' + str(count + 1) + ':', *s)
                 print('B_question: ' + seed_str + 'Wrong character =', s[1], file=sys.stderr)
                 return -1
             
-            count += 1
-
             # Reply for Query
             if qdata[s[0]] < qdata[s[1]]:
+                dsp_msg('B_question: Query ' + str(count + 1) + ':', s[0] + ' < ' + s[1])
                 print('<', flush=True) 
             elif qdata[s[0]] > qdata[s[1]]:
+                dsp_msg('B_question: Query ' + str(count + 1) + ':', s[0] + ' > ' + s[1])
                 print('>', flush=True) 
             else:
+                dsp_msg('B_question: Query ' + str(count + 1) + ':', *s)
                 print('B_question: ' + seed_str + 'Compare failed.', *s, file=sys.stderr)
                 return -1
-        
+
+            count += 1
+
+
         elif cmd == '!':
             # Answer
             dsp_msg('B_question: Ans', *s)
