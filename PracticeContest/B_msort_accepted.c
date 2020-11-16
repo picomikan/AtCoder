@@ -30,7 +30,7 @@ add_cache(char C1, char C2, char s){
 int
 cmp(char C1, char C2){
   // 0: '<', 1: '>'
-  if (cache[C1 - 'A'][C2 - 'A'] == 0 || cache[C1 - 'A'][C2 - 'A'] == '?'){
+  if (cache[C1 - 'A'][C2 - 'A'] == 0){
     char s[8];
 
     // クエリ

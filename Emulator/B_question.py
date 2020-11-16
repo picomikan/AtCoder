@@ -70,9 +70,9 @@ def make_question(seed):
         if i == e:
             s += 'E'
     
-    dsp_msg('B_question: Q No.' + str(seed) + ' Exp:' + s)
+    dsp_msg('B_question: Q.' + str(seed) + ' Exp:' + s)
 
-    return 0, {'A':a, 'B':b, 'C':c, 'D':d, 'E':e}
+    return 0, {'odr':{'A':a, 'B':b, 'C':c, 'D':d, 'E':e}, 'exp':s}
 
 def start_qa(seed, qdata, Q):
     '''
@@ -80,7 +80,10 @@ def start_qa(seed, qdata, Q):
 
     Args:
         seed: 問題番号(0...119) ただし、番号は独自の数え方
-        {'A':a, 'B':b, 'C':c, 'D':d, 'E':e}
+        {
+            'odr': {'A':a, 'B':b, 'C':c, 'D':d, 'E':e}, : それぞれの順番(0...4)
+            'exp':s : 期待結果(例. AEBCD)
+        }
         Q: クエリの上限回数
 
     Returns:
@@ -88,11 +91,12 @@ def start_qa(seed, qdata, Q):
     
     '''
 
-    N = len(qdata)  # 個数
+    odr = qdata['odr']
+    N = len(odr)  # 個数
 
     seed_str = ''
     if not FULL_MSG:
-        seed_str += 'Q No.' + str(seed) + ' '
+        seed_str += 'Q.' + str(seed) + ' ' + qdata['exp'] + ' '
 
     # 問題出力
     print(N, Q, flush=True)
@@ -119,7 +123,7 @@ def start_qa(seed, qdata, Q):
                 return -1
             
             for c in s:
-                if c not in qdata.keys():
+                if c not in odr.keys():
                     dsp_msg('B_question: Query ' + str(count + 1) + ':', *s)
                     print('B_question: ' + seed_str + 'Wrong character =', c, file=sys.stderr)
                     return -1
@@ -130,10 +134,10 @@ def start_qa(seed, qdata, Q):
                 return -1
             
             # Reply for Query
-            if qdata[s[0]] < qdata[s[1]]:
+            if odr[s[0]] < odr[s[1]]:
                 dsp_msg('B_question: Query ' + str(count + 1) + ':', s[0] + ' < ' + s[1])
                 print('<', flush=True) 
-            elif qdata[s[0]] > qdata[s[1]]:
+            elif odr[s[0]] > odr[s[1]]:
                 dsp_msg('B_question: Query ' + str(count + 1) + ':', s[0] + ' > ' + s[1])
                 print('>', flush=True) 
             else:
@@ -160,7 +164,7 @@ def start_qa(seed, qdata, Q):
 
             for i in range(N):
                 c = ans[i:(i+1)]
-                if qdata[c] != i:
+                if odr[c] != i:
                     print('B_question: ' + seed_str + 'Wrong Answer...', file=sys.stderr)
                     return -1
             
